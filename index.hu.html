@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>git - the simple guide - no deep shit!</title>
+    <link href='http://fonts.googleapis.com/css?family=Chelsea+Market' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/0/normalize.min.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-652147-13']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+      function recordOutboundLink(link, category, action) {
+         _gat._getTrackerByName()._trackEvent(category, action);
+         setTimeout('document.location = "' + link.href + '"', 100);
+      }
+    </script>
+</head>
+<body>
+    <div class="scrollblock block-title">
+        <h1>git - a rövid útmutató</h1>
+        <p>csak egy egyszerű útmutató, hogy elindulhass a git-tel. semmi duma ;)</p>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="rogerdudler" data-size="large" data-url="http://rogerdudler.github.com/git-guide" data-related="rogerdudler" data-hashtags="git">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        <p class="meta">
+            írta: <a href="http://www.twitter.com/rogerdudler">Roger Dudler</a>
+            <br />további szerzők: <a href="http://www.twitter.com/tfnico">@tfnico</a>, <a href="http://www.twitter.com/fhd">@fhd</a> és <a href="http://www.namics.com">Namics</a><br />
+            ez az útmutató más nyelven: 
+            <a href="index.de.html">deutsch</a>, 
+            <a href="index.es.html">español</a>, 
+            <a href="index.fr.html">français</a>, 
+            <a href="index.id.html">indonesian</a>, 
+            <a href="index.it.html">italiano</a>, 
+            <a href="index.hu.html">magyar</a>, 
+            <a href="index.nl.html">nederlands</a>, 
+            <a href="index.pl.html">polski</a>,
+            <a href="index.pt_BR.html">português</a>, 
+            <a href="index.ru.html">русский</a>,
+            <a href="index.tr.html">türkçe</a>,
+            <br/>
+            <a href="index.my.html">မြန်မာ</a>,
+            <a href="index.ja.html">日本語</a>, 
+            <a href="index.zh.html">中文</a>, 
+            <a href="index.ko.html">한국어</a>
+            <a href="index.vi.html">Vietnamese</a>
+            <br />
+            a hibákat <a href="https://github.com/rogerdudler/git-guide/issues">github</a>-on jelezd.
+        </p>
+        <div class="announcement">
+            <a href="http://frontify.com/?utm_source=gitguide&amp;utm_campaign=founder_frontify">
+                <img src="//frontify.com/assets/img/frontify-announcement-git.png" width="960" height="100" alt="Frontify - Collaboration for Web Designers &amp; Front-End Developers" />
+            </a>
+        </div>
+        <img src="img/arrow.png" alt="" />
+    </div>
+    <!-- setup -->
+    <a name="setup"></a>
+    <div class="scrollblock block-setup">
+        <h2>telepítés</h2>
+        <p>
+            <a href="http://code.google.com/p/git-osx-installer/downloads/list?can=3">git letöltése OSX-re</a>
+        </p>
+        <p>
+            <a href="http://msysgit.github.io/">git letöltése Windows-ra</a>
+        </p>
+        <p>
+            <a href="http://git-scm.com/book/en/Getting-Started-Installing-Git">git letöltése Linux-ra</a>
+        </p>
+    </div>
+    <a name="create"></a>
+    <div class="scrollblock block-create">
+        <h2>új repó készítése</h2>
+        <p>
+            Hozz létre egy új könyvárat, nyisd meg, majd a<br />
+            <code>git init</code><br />
+            segítségével hozz létre egy új repót.
+        </p>
+    </div>
+    <a name="checkout"></a>
+    <div class="scrollblock block-checkout">
+        <h2>repó checkout-olása</h2>
+        <p>
+	    Az alábbi paranccsal másodpéldányt hozhatsz létre egy helyi repódból:<br />
+            <code>git clone /a/repó/útvonala</code><br />
+            Távoli szerver használata esetén az alábbi lesz a parancs:<br />
+            <code>git clone username@host:/a/repó/útvonala</code>
+        </p>
+    </div>
+    <a name="trees"></a>
+    <div class="scrollblock block-trees">
+        <h2>munkamenet</h2>
+        <p>
+            A helyi repód három "fából" áll.
+            Az első a <code>Working Directory</code> (munkakönyvtár), ahol a valódi fájljaid vannak.
+            A második az <code>Index</code>, amely az új verzió eltárolása (commit) előtti "felvonulási területként" (staging area) szolgál, és 
+            végül a <code>HEAD</code>, amely az utolsó eltárolt verziódra mutat.
+        </p>
+        <img src="img/trees.png" alt="" />
+    </div>
+    <a name="add"></a>
+    <div class="scrollblock block-add">
+        <h2>hozzáadás &amp; eltárolás</h2>
+        <p>
+            A változtatásokat az alábbival adhatod az <b>Index</b>-hez:<br />
+            <code>git add &lt;fájlnév&gt;</code><br />
+            <code>git add *</code><br />
+            Ez az alap git munkafolyamat első lépése. Az összes hozzáadott változtatás új verzióba való eltárolásához használd ezt:<br />
+            <code>git commit -m "Commit üzenet"</code><br />
+            Most a fájl el lett tárolva a <b>HEAD</b>-nél, de még csak helyben, nem a távoli repóban.
+        </p>
+    </div>
+    <a name="push"></a>
+    <div class="scrollblock block-remote">
+        <h2>a változtatások elküldése</h2>
+        <p>
+            A változtatásaid a repó helyi másolatának <b>HEAD</b>-jénél vannak. Hogy elküldd őket ("push"-old) a távoli repóba, futtasd az alábbit:<br />
+            <code>git push origin master</code><br />
+            A fenti parancsban <i>master</i>-t aszerint írd át, hogy melyik ágat akarod push-olni.
+            <br /><br />
+	    Ha nem egy létező repót klónoztál le, és hozzá akarod csatlakoztatni a repód egy távoli szerverhez:<br />
+            <code>git remote add origin &lt;szerver&gt;</code><br />
+            Most már el tudod küldeni a változtatásaid a kiválasztott távoli gépre.<br />
+        </p>
+    </div>
+    <a name="branching"></a>
+    <div class="scrollblock block-branching">
+        <h2>elágaztatás</h2>
+        <p>
+	Az új ág (angolul "branch") létrehozása arra való, hogy különböző új funkciókat egymástól függetlenül tudjatok fejleszteni. A <i>master</i> ág az alapértelmezett ág, amikor létrehozol egy repót. Használj más ágakat a fejlesztésre, majd vond össze őket (vagyis "merge"-eld) a master ággal, amikor befejezted.
+        </p>
+        <img src="img/branches.png" alt="" />
+        <p>
+            Hozz létre egy új ágat "feature_x" névvel, majd válts át rá az alábbival:<br />
+            <code>git checkout -b feature_x</code><br />
+            Válts vissza a master-re:<br />
+            <code>git checkout master</code><br />
+            Az új ágat így törölheted:<br />
+            <code>git branch -d feature_x</code><br />
+            Az ág <i>nem lesz elérhető</i> mások számára, amíg nem push-olod a távoli repóba:<br />
+            <code>git push origin &lt;branch&gt;</code>
+        </p>
+    </div>
+    <a name="update"></a>
+    <div class="scrollblock block-merging">
+        <h2>frissítés &amp; összevonás</h2>
+        <p>
+            Ha a helyi repód az utolsó commit-ra akarod frissíteni, az alábbival...<br />
+            <code>git pull</code><br />
+            ...lehívhatod (<i>fetch</i>) és a jelenlegivel összevonhatod (<i>merge</i>) a távoli változtatásokat.<br />
+            Hogy egy másik ágat vonj össze az aktív ágaddal (pl. a master-rel), írd be ezt a parancsot:<br />
+            <code>git merge &lt;branch&gt;</code><br />
+	    Mindkét esetben a git meg fogja próbálni automatikusan összevonni (<i>auto-merge</i>) a változtatásokat. Sajnos ez nem mindig lehetséges: van amikor összeférhetetlenséget okoz (<i>merge conflict</i>).
+            A te felelősséged, hogy ezt kézzel kijavítsd, belenyúlva azokba a fájlokba, amiknél a git jelzi a problémát. Ezután újra hozzá kell őket adni az Index-hez:<br />
+            <code>git add &lt;fájlnév&gt;</code><br />
+            Az összevonás előtt az alábbi módon kaphatsz egy előnézetet a változtatásokról:<br />
+            <code>git diff &lt;forrás branch&gt; &lt;cél branch&gt;</code>
+        </p>
+    </div>
+    <a name="tagging"></a>
+    <div class="scrollblock block-tagging">
+        <h2>címkézés</h2>
+        <p>
+            Javasolt, hogy hozz létre címkéket ("tag"-ek) a kiadott szoftververziókhoz. Ez egy ismert koncepció, amit az SVN-ben is létezik. Hogy létrehozz egy <i>1.0.0</i> nevű címkét, hajtsd végre ezt:<br />
+            <code>git tag 1.0.0 1b2e1d63ff</code><br />
+	    A <i>1b2e1d63ff</i> karaktersorozat egy commit azonosítójának első tíz karaktere. (Azt szeretnéd, hogy erre a commit-ra vonatkozzon a címke.) A commit azonosítót megszerezheted, ha belenézel abba, ami most következik...<br />
+        </p>
+    </div>
+    <a name="log"></a>
+    <div class="scrollblock block-log">
+        <h2>napló</h2>
+        <p>
+	    A repó történetét legegyszerűbb formában így nézheted meg:<br />
+            <code>git log</code><br />
+            Hozzáadhatsz egy csomó paramétert, hogy a log olyan legyen, amilyennek szeretnéd. Ha csak egy adott szerző commit-jait szeretnéd látni:<br />
+            <code>git log --author=bob</code><br />
+            Ha mindent nagyon tömören, egy sorban akarsz:<br />
+            <code>git log --pretty=oneline</code><br />
+            Ha ASCII art-ot szeretnél, amely kirajzolja a fát az összes ággal, megjelölve a címkékkel és az ágak neveivel:<br />
+            <code>git log --graph --oneline --decorate --all</code><br />
+            Ha csak azt akarod látni, hogy mely fájlok változtak:<br />
+            <code>git log --name-status</code><br />
+	    Ez csak pár lehetséges paraméter. Ha a többit is látni szeretnéd:<br />
+            <code>git log --help</code><br />
+        </p>
+    </div>
+    <a name="checkout-replace"></a>
+    <div class="scrollblock block-checkout-replace">
+        <h2>a helyi változások visszacsinálása</h2>
+        <p>
+            Ha esetleg valamit elrontottál, ami persze soha nem történhet meg ;), vissza tudod állítani a változtatásaid az alábbi parancssal:<br />
+            <code>git checkout -- &lt;fájlnév&gt;</code><br />
+            Ez a munkakönyvtárba visszateszi a HEAD-ben lévő tartalmat. Meg lesznek tartva azonban azok a változtatások, amelyek már hozzá lettek adva az Index-hez, illetve az előző commit óta keletkezett új fájlok is.
+        </p>
+        <p>
+            Ha inkább minden helyi változtatást és commit-ot kidobnál, letöltenéd a legújabb commit-okat a szerverről és azt sueretnéd, hogy a master ág a legfrissebb commit-ra mutasson, akkor ezt kell tenned:<br />
+            <code>git fetch origin</code><br />
+            <code>git reset --hard origin/master</code>
+        </p>
+    </div>
+    <a name="hints"></a>
+    <div class="scrollblock block-hints">
+        <h2>hasznos tippek</h2>
+        <p>
+            Beépített git GUI:<br />
+            <code>gitk</code><br />
+            Színes git kimenet:<br />
+            <code>git config color.ui true</code><br />
+            A logban mindig egy sor legyen egy commit:<br />
+            <code>git config format.pretty oneline</code><br />
+            Fájlok interaktív hozzáadása az Index-hez:<br />
+            <code>git add -i</code>
+        </p>
+    </div>
+    <a name="resources"></a>
+    <div class="scrollblock block-resources">
+        <h2>linkek & egyebek</h2>
+        <h3>grafikus kliensek</h3>
+        <p>
+            <ul>
+                <li><a href="http://gitx.laullon.com/">GitX (L) (OSX, nyílt forráskódú)</a></li>
+                <li><a href="http://www.git-tower.com/">Tower (OSX)</a></li>
+                <li><a href="http://www.sourcetreeapp.com/">Source Tree (OSX & Windows, ingyenes)</a></li>
+                <li><a href="http://mac.github.com/">GitHub for Mac (OSX, ingyenes)</a></li>
+                <li><a href="https://itunes.apple.com/gb/app/gitbox/id403388357?mt=12">GitBox (OSX, App Store)</a></li>
+            </ul>
+        </p>
+        <h3>leírások</h3>
+        <p>
+            <ul>
+                <li><a href="http://book.git-scm.com/">Git Community Book</a></li>
+                <li><a href="http://progit.org/book/">Pro Git</a></li>
+                <li><a href="http://think-like-a-git.net/">Think like a git</a></li>
+                <li><a href="http://help.github.com/">GitHub Help</a></li>
+                <li><a href="http://marklodato.github.com/visual-git-guide/index-en.html">A Visual Git Guide</a></li>
+            </ul>
+        </p>
+        <h3>további segítség</h3>
+        <p>
+            <ul>
+                <li><a href="http://groups.google.com/group/git-users/">Git felhasználók levelezőlistája</a></li>
+                <li><a href="http://jk.gs/git/">#git az irc.freenode.net-en</a></li>
+            </ul>
+        </p>
+    </div>
+    <a name="comments"></a>
+    <div class="scrollblock block-comments">
+        <h2>hozzászólások</h2>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'git-the-simple-guide'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    <a href="http://www.git-tower.com/?source=rd" onClick="recordOutboundLink(this, 'Outbound Links', 'git-tower.com');return false;" class="tower"></a>
+    <a href="files/git_cheat_sheet.pdf" onClick="recordOutboundLink(this, 'Cheat Sheet', 'git-guide');return false;" class="cheatsheet"></a>
+</body>
+</html>
